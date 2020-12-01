@@ -243,7 +243,8 @@ class FrontEndApp(object):
                                           dedup_index=dedup_index)
 
         self.recorder = RecorderApp(self.RECORD_SERVER % str(self.warcserver_server.port), warc_writer,
-                                    accept_colls=recorder_config.get('source_filter'))
+                                    accept_colls=recorder_config.get('source_filter'),
+                                    max_record_size=int(recorder_config.get('max_record_size', 0)))
 
         recorder_server = GeventServer(self.recorder, port=0)
 

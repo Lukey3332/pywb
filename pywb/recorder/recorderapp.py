@@ -17,7 +17,8 @@ from pywb.warcserver.inputrequest import DirectWSGIInputRequest
 
 # ==============================================================================
 class RecorderApp(object):
-    def __init__(self, upstream_host, writer, skip_filters=None, **kwargs):
+    def __init__(self, upstream_host, writer, skip_filters=None,
+                 max_record_size=0, **kwargs):
         self.upstream_host = upstream_host
 
         self.writer = writer
@@ -34,6 +35,8 @@ class RecorderApp(object):
             skip_filters = self.create_default_filters(kwargs)
 
         self.skip_filters = skip_filters
+
+        self.max_record_size = max_record_size
 
     @staticmethod
     def create_default_filters(kwargs):
@@ -67,6 +70,9 @@ class RecorderApp(object):
             resp_length = resp_pay.tell()
             resp_pay.seek(0)
             resp = ArcWarcRecordLoader().parse_record_stream(resp_pay)
+
+            if self.max_record_size and resp_length > self.max_record_size:
+                return
 
             if resp.rec_type == 'response':
                 uri = resp.rec_headers.get_header('WARC-Target-Uri')
