@@ -553,3 +553,14 @@ To enable the previous behavior, add to config::
   enable_flash_video_rewrite: true
 
 The system may be revamped in the future and enabled by default, but for now, it is provided "as-is" for compatibility reasons.
+
+Verify SSL-Certificates
+-----------------------
+
+By default, SSL-Certificates of websites are not verified. To enable verification, add the following to the config::
+
+  certificates:
+    cert_req: 'CERT_REQUIRED'
+    ca_cert_dir: '/etc/ssl/certs'
+
+``ca_cert_dir`` should point to a directory containing the CA certificates that you trust. Most linux distributions provide CA certificates via a package called ``ca-certificates``.
