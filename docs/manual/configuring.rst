@@ -262,6 +262,7 @@ The full set of configurable options (with their default settings) is as follows
      source_coll: live
      rollover_size: 100000000
      rollover_idle_secs: 600
+     max_record_size: 1000000
      filename_template: my-warc-{timestamp}-{hostname}-{random}.warc.gz
      source_filter: live
 
@@ -274,6 +275,8 @@ The other options are optional and may be omitted. The ``rollover_size`` and ``r
 the maximum size and maximum idle time, respectively, after which a new WARC file is created.
 For example, a new WARC will be created if more than 100MB are recorded, or after 600 seconds have elapsed between
 subsequent requests. This allows the WARC size to be more manageable and prevents files from being left open for long periods of time.
+
+The ``max_record_size`` specifies the maximum size of responses that should be recorded. Larger responses will not be recorded into the WARC.
 
 The ``filename-template`` specifies the naming convention for WARC files, and allows a timestamp, current hostname, and
 random string to be inserted into the filename.
